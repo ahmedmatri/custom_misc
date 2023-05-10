@@ -1,0 +1,34 @@
+#custom_misc.group_content:
+#  title: 'My group content'
+#  route_name: 'view.membership_nodes.page_1'
+#  parent: 'system.admin'
+#  description: 'Acces to content'
+#  weight: -9999
+#  requirements:
+#    _permission: 'view group content'
+#
+#custom_misc.group_content_publication:
+#  title: 'Publications'
+#  route_name: 'view.content.pubs'
+#  parent: 'system.admin'
+#  description: 'Acces to publications'
+#  weight: -9999
+#  requirements:
+#    _permission: 'view group content'
+#custom_misc.system.extranet.hp.block:
+#  title: 'Header extranet'
+#  description: 'Handle header extranet home page.'
+#  route_name: 'entity.block_content.canonical'
+#  route_parameters:
+#    block_content: 3
+#  parent: 'custom_bo.system.hp'
+#  weight: 3
+#
+#custom_misc.system.extranet.hp.block.sidebar:
+#  title: 'Sidebar extranet'
+#  description: 'Handle sidebar home page.'
+#  route_name: 'entity.block_content.canonical'
+#  route_parameters:
+#    block_content: 4
+#  parent: 'custom_bo.system.hp'
+#  weight: 4

@@ -1,0 +1,139 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for the Entity Share Lock module.
+ */
+
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
+use Drupal\group\Entity\GroupContent;
+use Drupal\custom_misc\HookHandler\FormAlterHookHandler;
+use Drupal\custom_misc\HookHandler\NodeAlterHookHandler;
+use Drupal\custom_misc\HookHandler\ParagraphHookHandler;
+use Drupal\custom_misc\HookHandler\WidgetParagraphsAlterHookHandler;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\media\Entity\Media;
+use Drupal\media\MediaInterface;
+use Drupal\node\Entity\Node;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_form_alter().
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ *
+ * @return mixed
+ */
+function custom_misc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(FormAlterHookHandler::class)
+    ->formAlter($form, $form_state, $form_id);
+}
+
+/**
+ * @param $variables
+ *
+ * @return mixed
+ */
+function custom_misc_preprocess_paragraph(&$variables) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(ParagraphHookHandler::class)
+    ->paragraphAlter($variables);
+}
+
+
+/**
+ * Implements hook_field_widget_paragraphs_form_alter().
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ *
+ * @return mixed
+ */
+function custom_misc_field_widget_paragraphs_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(WidgetParagraphsAlterHookHandler::class)
+    ->widgetAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_views_pre_build(().
+ *
+ * @param \Drupal\views\ViewExecutable $view
+ *
+ * @return void
+ */
+function custom_misc_views_pre_build(ViewExecutable $view) {
+  if ($view->getDisplay()->display['id'] == 'listing') {
+    $host = (\Drupal::request()->getHost());
+    $gid = NULL;
+    $config = \Drupal::configFactory()
+      ->get('domain_site_settings.domainconfigsettings');
+    foreach ($config->getRawData() as $data) {
+      if ($data['hostname'] == $host) {
+        $gid = $data['gid'];
+        break;
+      }
+    };
+    $view->setArguments([$gid]);
+  }
+}
+
+/**
+ * Implements hook_node().
+ *
+ * @param $variables
+ *
+ * @return mixed
+ */
+function custom_misc_preprocess_node(&$variables) {
+  return \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(NodeAlterHookHandler::class)
+    ->nodeAlter($variables);
+}
+
+/**
+ * Create simple taxnomies for testing purpose
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function custom_misc_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof Vocabulary) {
+    for ($i = 1; $i <= 3; $i++) {
+      $term = Term::create(
+        [
+          'name' => $entity->label() . ' ' . $i,
+          'vid' => $entity->id(),
+        ]
+      );
+      $term->save();
+    }
+  }
+
+}
+
+
+/**
+ * Implements hook_theme.
+ */
+function custom_misc_theme($existing, $type, $theme, $path) {
+
+  return [
+    'split-date' => [
+      'variables' => ['content' => NULL,],
+    ],
+    'headerblock' => [
+      'variables' => ['content' => NULL,],
+    ],
+  ];
+}
+

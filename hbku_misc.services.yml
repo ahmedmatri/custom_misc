@@ -1,0 +1,13 @@
+services:
+  custom_misc.helper:
+    class: Drupal\custom_misc\MiscHelper
+    arguments: ['@entity_type.manager', '@current_route_match', '@request_stack']
+  custom_misc.route_subscriber:
+    class: Drupal\custom_misc\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  custom_misc.twig.extension:
+    class: Drupal\custom_misc\Twig\TwigExtension
+    arguments: ['@renderer']
+    tags:
+      - { name: twig.extension, priority: 100 }

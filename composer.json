@@ -1,0 +1,9 @@
+{
+  "name": "irtam-modules/custom_misc",
+  "type": "drupal-module",
+  "description": "",
+  "keywords": ["Irtam", "Drupal"],
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": { }
+}

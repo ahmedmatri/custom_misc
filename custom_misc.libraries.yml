@@ -1,0 +1,6 @@
+custom_misc:
+  version: VERSION
+  js:
+    js/custom_misc.js: {}
+  dependencies:
+    - core/jquery

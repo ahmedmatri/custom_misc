@@ -1,0 +1,75 @@
+  {% set image %}
+  {% include '@atoms/imagebox/imagebox.twig' with {
+    imagebox : {
+      img : "<img src='/themes/custom/intuitiv_extranet/assets/samples/profile.jpeg'>",
+
+    }
+  } %}
+{% endset %}
+
+{% include "@layout/sidebar/sidebar.twig" with {
+  sidebar : {
+    profile : {
+      image : content.media ?: image,
+      name : content.name ?: user.getUsername(),
+      disconnect : {
+        label : "Se déconnecter"|t,
+        attributes : {
+          href : "/user/logout"
+        },
+      },
+      settings : {
+        attributes : {
+          href : content.id ? url('custom_extranet.edit', { 'node': content.id })["#markup"] : null
+        },
+      }
+
+    },
+    links : [
+      {
+        label : content.content_sidebar.field_tools.0['#title'],
+        attributes: content.content_sidebar.field_tools.0 ? content.content_sidebar.field_tools.0['#options']['attributes']|merge({ 'href': content.content_sidebar.field_tools.0['#url'].toString() }) : null,
+        icon : "tools"
+      },
+      {
+        label : content.content_sidebar.field_directory.0['#title'],
+        attributes: content.content_sidebar.field_directory.0 ? content.content_sidebar.field_directory.0['#options']['attributes']|merge({ 'href': content.content_sidebar.field_directory.0['#url'].toString() }) : null,
+        icon : "open-book1"
+      },
+      {
+        label : content.content_sidebar.field_string.0 ?: "Réservations"|t,
+        icon : "reservation",
+        options : [
+        {
+          label : content.content_sidebar.field_links_2_1.0['#title'] ?: null,
+          attributes: content.content_sidebar.field_links_2_1.0 ? content.content_sidebar.field_links_2_1.0['#options']['attributes']|merge({ 'href': content.content_sidebar.field_links_2_1.0['#url'].toString() }) : null,
+        },
+        {
+          label : content.content_sidebar.field_links_2_1.1['#title'] ?: null,
+          attributes: content.content_sidebar.field_links_2_1.1 ? content.content_sidebar.field_links_2_1.1['#options']['attributes']|merge({ 'href': content.content_sidebar.field_links_2_1.1['#url'].toString() }) : null,
+        },
+        {
+          label : content.content_sidebar.field_links_2_1.2['#title'] ?: null,
+          attributes: content.content_sidebar.field_links_2_1.2 ? content.content_sidebar.field_links_2_1.2['#options']['attributes']|merge({ 'href': content.content_sidebar.field_links_2_1.2['#url'].toString() }) : null,
+        },
+      ]
+
+      },
+      {
+        label : content.content_sidebar.field_title.0 ?: "Maintenance"|t,
+        icon : "cog",
+        options : [
+        {
+          label : content.content_sidebar.field_links_2.0['#title'] ?: null,
+          attributes: content.content_sidebar.field_links_2.0 ? content.content_sidebar.field_links_2.0['#options']['attributes']|merge({ 'href': content.content_sidebar.field_links_2.0['#url'].toString() }) : null,
+        },
+        {
+          label : content.content_sidebar.field_links_2.1['#title'] ?: null,
+          attributes: content.content_sidebar.field_links_2.1 ? content.content_sidebar.field_links_2.1['#options']['attributes']|merge({ 'href': content.content_sidebar.field_links_2.1['#url'].toString() }) : null,
+        },
+      ]
+
+      },
+    ]
+  }
+} %}

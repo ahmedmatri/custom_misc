@@ -1,0 +1,18 @@
+#membership_nodes.list-groups:
+#  route_name: 'view.membership_groups.page_1'
+#  title: 'Add content'
+#  appears_on:
+#    - 'view.membership_nodes.page_1'
+#
+#membership_nodes.add_publications:
+#  route_name: node.add
+#  route_parameters:
+#    node_type: pubs
+#  appears_on:
+#    - view.content.pubs
+#  title: 'Ajouter Publication'
+#data_export.excel:
+#  route_name: 'view.content.data_export_1'
+#  title: 'Exporter en xlsx'
+#  appears_on:
+#    - 'view.profiles_last_revisions.profiles'
